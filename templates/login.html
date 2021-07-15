@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href='{% static "css_file/login.css"%}'/>
+
+</head>
+<body>
+<h1>ログイン画面</h1>
+
+<div class="reg_form">
+  <form method="post" action="{% url 'Login' %}">
+    {% csrf_token %}
+      <span class="fontawesome-user"></span>
+        <input type="text" placeholder="Username" name="userid">
+
+      <span class="fontawesome-lock"></span>
+        <input type="password" placeholder="Password" name="password">
+
+    <input type="submit" class="btn" value="Login">
+  </form>
+ </div>
+
+   <p class="message">アカウントをお持ちですか？：
+   <a href="{% url 'createacount' %}">アカウントを作成</a>
+   </p>
+</body>
+</html>
+

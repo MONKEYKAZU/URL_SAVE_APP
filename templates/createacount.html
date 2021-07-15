@@ -1,0 +1,68 @@
+{% comment %} <html lang="en-US">
+<head>
+  <meta charset="utf-8">
+    <title>Login</title>
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css_file/createacount.css"%}">
+</head>
+
+{% if AccountCreate %}
+   <h1>登録完了!</h1>
+
+    <div id="createacount">
+      <form name='form-createacount'>
+        <span class="fontawesome-email"><img src= "./static/img/index2.jpg"></span>
+          <input type="email" id"mail" placeholder="e-mail">
+
+        <span class="fontawesome-user"></span>
+          <input type="text" id="user" placeholder="Username">
+       
+        <span class="fontawesome-lock"></span>
+          <input type="password" id"pass" placeholder="Password">
+        
+        <input type="submit" value="createacount">
+
+
+form-createacount
+name='form-createacount'
+</form> {% endcomment %}
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja" dir="ltr">
+
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href='{% static "css_file/createacount.css"%}'>
+</head>
+
+<body>
+<h1>新規登録</h1>
+
+ {% if AccountCreate %}
+   <h1>登録完了!</h1>
+    <a href = "{% url 'Login' %}">ログイン画面へ</a>
+  {% elif Accounterror%}
+    <h1>登録できませんでした。<br>
+    もう一度お願いします。</h1>
+    <a href = "{% url 'createacount' %}">新規作成画面へ</a>
+ {% else %}
+  <div class="reg">
+    <form name='form-createacount' method="post">
+      {% csrf_token %}
+        <span class="fontawesome-user"></span>
+          {{ account_form.username }}
+        <span class="fontawesome-email"><img src= "./static/img/index2.jpg"></span>
+          {{ account_form.email }}
+        <span class="fontawesome-lock"></span>
+          {{ account_form.password }}
+      <input class="btn" type="submit" name="" value="登録">
+    </form>
+  </div>
+  <a href = "{% url 'Login' %}">ログイン画面へ</a>
+ {% endif %}
+
+</body>
+</html>

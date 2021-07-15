@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title></title>
+{% comment %} <link rel="stylesheet" href='{% static "css_file/login.css"%}'/> {% endcomment %}
+
+<body>
+<h1>新規作成画面</h1>
+
+<div class="urlform">
+  <form method="post">
+    {% csrf_token %}
+    <p>{{UserID}}<p>
+    {{url_form.as_p}}
+    <input type="submit" class="btn" value="保存">
+  </form>
+ </div>
+</body>
+</html>

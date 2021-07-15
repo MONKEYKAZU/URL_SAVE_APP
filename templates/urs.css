@@ -1,0 +1,43 @@
+body {
+    /* background: #2c3338; */
+    color: #606468;
+    font: 87.5%/1.5em 'Open Sans', sans-serif;
+    margin: 0;
+  }
+
+  .url{
+    word-break: keep-all;
+    line-break: strict;
+    overflow: hidden;
+    height: 50px;
+  }
+
+a {
+    color: #16aa56;
+    width: 213px;
+    height: 50px;
+}
+
+.title{
+  background-color: #363b41;
+  border-radius: 3px 3px 3px 3px;
+  border: 3px solid #434a52;
+  color: #606468;
+  display: block;
+  text-align: center;
+  height: 20px;
+}
+
+li {
+  background-color: #363b41;
+  border-radius: 3px 3px 3px 3px;
+  border: 3px solid #434a52;
+  color: #606468;
+  display: block;
+  float: left;
+  margin-top: 20px;
+  margin-left: 20px;
+  text-align: center;
+  width: 213px;
+  height: 64px;
+}
