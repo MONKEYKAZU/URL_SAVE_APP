@@ -53,7 +53,13 @@ def Logout(request):
 #indexhtmlにuserを返す
 @login_required
 def home(request):
-    params = {"UserID":request.user,}
+    url = Urls_save.objects.filter(user = request.user)
+    # url = Urls_save.objects.all()
+    print(url)
+    params = {
+        "UserID":request.user,
+        "url_view":url
+        }
     return render(request, "index.html",context=params)
 
 
@@ -100,13 +106,13 @@ class  AccountRegistration(TemplateView):
 
 #urlを新規で保存する
 class URLsave(FormView):
-    def __init__(self):
-        self.params = {
-        "url_form": URL_SAVEForm(),
-        }
+    # def __init__(self):
+    #     self.params = {
+    #     "url_form": URL_SAVEForm(),
+    #     }
 
-    # form_class = URL_SAVEForm
-    # template_name = 'url_save.html'
+    form_class = URL_SAVEForm
+    template_name = 'url_save.html'
 
     #getは絶対いる
     def get(self,request):
@@ -116,13 +122,13 @@ class URLsave(FormView):
         return render(request,"url_save.html",context=self.params)
 
 
-    # # フォームの値が正しいかどうかの検証をして　検証が通ったら実行される部分だよ
-    # def form_valid(self, form):
-    #     qryset =  form.save(commit=False)
-    #     qryset.user=self.request.user
-    #     qryset.save()
-    #     print(qryset)
-    #     return HttpResponse('登録完了')
+    # フォームの値が正しいかどうかの検証をして　検証が通ったら実行される部分だよ
+    def form_valid(self, form):
+        qryset =  form.save(commit=False)
+        qryset.user=self.request.user
+        qryset.save()
+        print(qryset)
+        return HttpResponseRedirect(reverse('home'))
 
     # #このhtmlを表示する時に、少なくとも一回はgetするから絶対必要
     # #というよりgetとpostはセットと覚えた方がよさそう
@@ -134,22 +140,22 @@ class URLsave(FormView):
 
 
     #Post処理
-    def post(self,request):
-        self.params["url_form"] = URL_SAVEForm(data=request.POST)
+    # def post(self,request):
+    #     self.params["url_form"] = URL_SAVEForm(data=request.POST)
 
-        #フォーム入力の有効検証
-        if self.params["url_form"].is_valid():
-            # アカウント情報をDB保存
-            urls_parm = self.params["url_form"].save()
-            urls_parm.user = self.request.user
-            # パスワードをハッシュ化
-            # urls_parm.set_user(Urls_save.user)
-            # ハッシュ化パスワード更新
-            urls_parm.save()
-            print(urls_parm)
+    #     #フォーム入力の有効検証
+    #     if self.params["url_form"].is_valid():
+    #         # アカウント情報をDB保存
+    #         urls_parm = self.params["url_form"].save()
+    #         urls_parm.user = self.request.user
+    #         # パスワードをハッシュ化
+    #         # urls_parm.set_user(Urls_save.user)
+    #         # ハッシュ化パスワード更新
+    #         urls_parm.save()
+    #         print(urls_parm)
 
-        else:
-            # フォームが有効でない場合
-            print(self.params["url_form"].errors)
+    #     else:
+    #         # フォームが有効でない場合
+    #         print(self.params["url_form"].errors)
 
-        return render(request,"url_save.html",context=self.params)
+    #     return render(request,"url_save.html",context=self.params)
