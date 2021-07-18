@@ -1,7 +1,7 @@
 from env1 import urls
 from django import views
 from myapp.models import Urls_save
-from .forms import AccountForm,URL_SAVEForm
+from .forms import AccountForm,URL_SAVEForm,RANDOMForm
 from django.views import generic
 from django.shortcuts import render
 from django.views.generic import TemplateView #テンプレートタグ
@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+import random
 
 #ログイン
 def Login(request):
@@ -54,7 +55,6 @@ def Logout(request):
 @login_required
 def home(request):
     url = Urls_save.objects.filter(user = request.user)
-    # url = Urls_save.objects.all()
     print(url)
     params = {
         "UserID":request.user,
@@ -64,7 +64,7 @@ def home(request):
 
 
 #新規登録
-class  AccountRegistration(TemplateView):
+class AccountRegistration(TemplateView):
 
     def __init__(self):
         self.params = {
@@ -106,11 +106,6 @@ class  AccountRegistration(TemplateView):
 
 #urlを新規で保存する
 class URLsave(FormView):
-    # def __init__(self):
-    #     self.params = {
-    #     "url_form": URL_SAVEForm(),
-    #     }
-
     form_class = URL_SAVEForm
     template_name = 'url_save.html'
 
@@ -130,32 +125,35 @@ class URLsave(FormView):
         print(qryset)
         return HttpResponseRedirect(reverse('home'))
 
-    # #このhtmlを表示する時に、少なくとも一回はgetするから絶対必要
-    # #というよりgetとpostはセットと覚えた方がよさそう
-    # def get(self,request):
-    #     self.params = {"UserID":self.request.user}
-    #     self.params["url_form"] = URL_SAVEForm()
-    #     print(self.request.user)
-    #     return render(request,"url_save.html",context=self.params)
+class Randomviews(TemplateView):
+    def __init__(self):
+        self.params = {
+        "random": RANDOMForm(),
+        }
 
+    def get(self,request):
+        self.params["random"] = RANDOMForm()
+        return render(request,"rand_view.html",context=self.params)
 
-    #Post処理
-    # def post(self,request):
-    #     self.params["url_form"] = URL_SAVEForm(data=request.POST)
+    def post(self,request):
+        self.params["random"] = RANDOMForm(data=request.POST)
 
-    #     #フォーム入力の有効検証
-    #     if self.params["url_form"].is_valid():
-    #         # アカウント情報をDB保存
-    #         urls_parm = self.params["url_form"].save()
-    #         urls_parm.user = self.request.user
-    #         # パスワードをハッシュ化
-    #         # urls_parm.set_user(Urls_save.user)
-    #         # ハッシュ化パスワード更新
-    #         urls_parm.save()
-    #         print(urls_parm)
+        #フォーム入力の有効検証
+        if self.params["random"].is_valid():
+            # 数値が返ってくる
+            randam = self.params["random"].cleaned_data.get('ransu')
+            print(randam)
+            for url_dict in range(randam):
+                #乱数生成
+                rand = random.randrange(0,randam)
+                url = Urls_save.objects.filter(user = self.request.user)[rand]
+                #self.paramsは辞書型を返すので、urlのクエリーセットを代入していく
+                self.params[url_dict] = url
+                print(self.params[url_dict])
+                #辞書型確認
 
-    #     else:
-    #         # フォームが有効でない場合
-    #         print(self.params["url_form"].errors)
+        else:
+            #フォームが有効でない場合
+            print("error")
 
-    #     return render(request,"url_save.html",context=self.params)
+        return render(request,"rand_view.html",context=self.params)

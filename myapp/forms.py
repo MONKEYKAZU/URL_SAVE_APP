@@ -34,4 +34,7 @@ class URL_SAVEForm(forms.ModelForm):
 
         fields = ('url','tag1','tag2','tag3')
 
-        
+class RANDOMForm(forms.Form):
+    ransu = forms.IntegerField()
+
+    fieids = ('ransu')

@@ -7,5 +7,6 @@ urlpatterns = [
     path("logout",views.Logout,name="Logout"),
     path("home",views.home,name="home"),
     path("create",views.URLsave.as_view(),name="create"),
+    path("rand",views.Randomviews.as_view(),name="rand"),
 ]
 
