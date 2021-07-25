@@ -26,6 +26,7 @@ p {
 
 h1{
   text-align: center;
+  margin-left: 35px;
 }
 
 a{
@@ -101,5 +102,6 @@ after { clear: both; }
 } 
 
 .message{
+  margin-left: 35px;
   text-align: center;
 }

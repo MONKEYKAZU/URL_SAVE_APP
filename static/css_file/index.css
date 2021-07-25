@@ -1,0 +1,97 @@
+body {
+    background: #2c3338;
+    color: #606468;
+    font: 87.5%/1.5em 'Open Sans', sans-serif;
+    height: auto;
+    margin: 0;
+}
+
+.front_view{
+    background-color: #c0c0c0;
+    border: 5px solid #606468;
+    border-color: #c0c0c0;
+}
+
+.jump_url{
+    text-align: center;
+    background-color: #c0c0c0;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+h1{
+    display: block;
+    float: left;
+    margin: auto;
+    padding-top:5px ;
+}
+
+.jump_url a{
+    border-radius: 3px 3px 3px 3px;
+    border: 3px solid #606468;
+    color: #16aa56;
+    margin:0, auto;
+    display: inline-block;
+}
+
+.url_form{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.url {
+    background-color: #363b41;
+    width: calc(100% - 30px);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+ul{
+    margin: 0px;
+}
+
+li{
+    width: calc(20% - 10px);
+    display: block;
+    float: left;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.title_url {
+    height: auto;
+}
+
+.title a{
+    word-break: keep-all;
+    line-break: strict;
+    overflow: hidden;
+    color: #16aa56;
+    background-color: #363b41;
+    border-radius: 3px 3px 3px 3px;
+    border: 3px solid #434a52;
+    display: block;
+    text-align: center;
+    height: 20px;
+}
+
+.tag {
+    background-color: #363b41;
+    border-radius: 3px 3px 3px 3px;
+    border: 3px solid #434a52;
+    color: #606468;
+    text-align: center;
+    width: auto;
+    height: 64px;
+}
+
+.tag p{
+    margin: 0px;
+}
+
+.btn{
+    float: left;
+}
