@@ -4,7 +4,8 @@
 <head>
 <meta charset="utf-8">
 <title></title>
-{% comment %} <link rel="stylesheet" href='{% static "css_file/login.css"%}'/> {% endcomment %}
+<link rel="stylesheet" href='{% static "css_file/url_save.css"%}'/> 
+</html>
 
 <body>
 <h1>新規作成画面</h1>
@@ -13,9 +14,15 @@
   <form method="post">
     {% csrf_token %}
     <p>{{UserID}}<p>
-    {{url_form.as_p}}
+    {% for item in url_form %}
+      <div class="input_tags">
+        {{ item.label_tag }} 
+        {{ item }}
+      </div>
+    {% endfor %}
     <input type="submit" class="btn" value="保存">
   </form>
  </div>
+ <a href="{% url 'home' %}">戻る</a>
 </body>
 </html>

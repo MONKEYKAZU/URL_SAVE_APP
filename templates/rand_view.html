@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href='{% static "css_file/rand_view.css"%}'/>
+</head>
+
+<body>
+    <form name='create_randomform' method="post">
+        {% csrf_token %}
+        <div class = "random_form">
+            {{ random.label_tag }}
+            {{ random }}
+            <input type="submit" class="btn" value="作成">
+            <a href="{% url 'home' %}">戻る</a>
+        </div>
+    </form>
+    
+    {% if Random_Look%}
+        <div class = "title_url">
+            <div class = "flex_url">
+                <ul class = "rand-grid" style="list-style: none; padding-left: 0;">
+                    {% for item in random_view %}
+                    <li class = "randview-url">
+                        <div class = "url">
+                            <div class="title">
+                                <a href="{{ item.url }}" >{{item.title}}</a>
+                            </div>
+                            <div class = "tag">
+                                <p>{{ item.tag1 }}</p>
+                                <p>{{ item.tag2 }}</p>
+                                <p>{{ item.tag3 }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {%elif not Random_Look %}
+        <div class ="out index">
+            <p>要素が少なすぎます</p>
+        </div>
+    {% endif %}
+</body>
+</html>
+

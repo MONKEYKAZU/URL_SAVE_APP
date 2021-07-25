@@ -60,8 +60,8 @@ name='form-createacount'
           {{ account_form.password }}
       <input class="btn" type="submit" name="" value="登録">
     </form>
+    <a href = "{% url 'Login' %}">ログイン画面へ</a>
   </div>
-  <a href = "{% url 'Login' %}">ログイン画面へ</a>
  {% endif %}
 
 </body>

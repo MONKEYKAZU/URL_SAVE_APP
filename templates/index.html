@@ -4,30 +4,36 @@
 <head>
 <meta charset="utf-8">
 <title></title>
-<link rel="stylesheet" href='{% static "css_file/url_save.css"%}'/>
+<link rel="stylesheet" href='{% static "css_file/index.css"%}'/>
 
 </head>
 <body>
- <h1><font color="red">{{ UserID }}</font>さんようこそ！！</h1>
- <a href="{% url 'create' %}">新規作成</a>
- <p> ログアウトは
-    <a href="{% url 'Logout' %}">こちら</a>
- <>
-<div class = "title_url" style = "display: block;">
-    <div class = "flex_url">
-        {% for item in url_view %}
-        <div class = "url">
-            <div class="title">
-                <a href="{{ item.url }}">{{item.url}}</a>
-            </div>
-            <div class = "tag">
-                <p>{{ item.tag1 }}</p>
-                <p>{{ item.tag2 }}</p>
-                <p>{{ item.tag3 }}</p>
-            </div>
+    <h1>{{ UserID }}</h1>
+    <div class="front_view">
+        <div class = "jump_url">
+            <a href="{% url 'create' %}">新規作成</a>
+            <a href="{% url 'random_views' %}">乱数使用</a>
+            <a href="{% url 'Logout' %}">ログアウト</a>
         </div>
-        {% endfor %}
     </div>
-</div>
+
+    <div class = "url_form",style="display: block;">
+        <div class = "url">
+            <ul class = "grid" style="list-style: none; padding-left: 0;">
+                {% for item in url_view %}
+                        <li class = "list_url">
+                            <div class="title">
+                                <a href="{{ item.url }}">{{item.title}}</a>
+                            </div>
+                            <div class = "tag">
+                                <p>{{ item.tag1 }}</p>
+                                <p>{{ item.tag2 }}</p>
+                                <p>{{ item.tag3 }}</p>
+                            </div>
+                        </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
