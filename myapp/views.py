@@ -1,3 +1,4 @@
+from typing import Counter
 from env1 import urls
 from django import views
 from myapp.models import Urls_save
@@ -6,7 +7,6 @@ from django.views import generic
 from django.shortcuts import render
 from django.views.generic import TemplateView #テンプレートタグ
 from django.views.generic.edit import FormView #フォームタグ
-# from django.contrib.auth.mixins import LoginRequiredMixin
 # ログイン・ログアウト処理に利用
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -55,17 +55,20 @@ def Logout(request):
 @login_required
 def home(request):
     url = Urls_save.objects.filter(user = request.user)
-    print(url)
+    print("フィルター後のURL:",url)
     params = {
         "UserID":request.user,
         "url_view":url
         }
+    print("パラムスの合計",params)
     return render(request, "index.html",context=params)
 
 
 #新規登録
 class AccountRegistration(TemplateView):
-
+    """
+    アカウントを保存するためのクラス
+    """
     def __init__(self):
         self.params = {
         "AccountCreate":False,
@@ -93,19 +96,18 @@ class AccountRegistration(TemplateView):
             account.save()
 
             # アカウント作成情報更新
-
             self.params["AccountCreate"] = True
-
         else:
             # フォームが有効でない場合
             print(self.params["account_form"].errors)
             self.params["AccountCreate"] = False
             self.params["Accounterror"] = True
-
         return render(request,"createacount.html",context=self.params)
 
-#urlを新規で保存する
 class URLsave(FormView):
+    """
+    URLを保存する為のクラス
+    """
     form_class = URL_SAVEForm
     template_name = 'url_save.html'
 
@@ -116,23 +118,27 @@ class URLsave(FormView):
         print(self.request.user)
         return render(request,"url_save.html",context=self.params)
 
-
-    # フォームの値が正しいかどうかの検証をして　検証が通ったら実行される部分だよ
+    #フォームの値がDBに適切な値かどうかの検証をして　検証が通ったら実行される部分だよ
     def form_valid(self, form):
         qryset =  form.save(commit=False)
-        qryset.user=self.request.user
+        qryset.user = self.request.user
         qryset.save()
         print(qryset)
         return HttpResponseRedirect(reverse('home'))
 
 class Randomviews(TemplateView):
+    """
+    乱数を設定して、DBから指定のレコードを持ってくるクラス
+    """
     def __init__(self):
         self.params = {
+        "Random_Look":False,
         "random": RANDOMForm(),
         }
 
     def get(self,request):
         self.params["random"] = RANDOMForm()
+        self.params["Random_Look"] = False
         return render(request,"rand_view.html",context=self.params)
 
     def post(self,request):
@@ -140,20 +146,29 @@ class Randomviews(TemplateView):
 
         #フォーム入力の有効検証
         if self.params["random"].is_valid():
+            urls_gather = []
             # 数値が返ってくる
             randam = self.params["random"].cleaned_data.get('ransu')
             print(randam)
-            for url_dict in range(randam):
-                #乱数生成
-                rand = random.randrange(0,randam)
-                url = Urls_save.objects.filter(user = self.request.user)[rand]
-                #self.paramsは辞書型を返すので、urlのクエリーセットを代入していく
-                self.params[url_dict] = url
-                print(self.params[url_dict])
-                #辞書型確認
+            url_count = Urls_save.objects.filter(user = self.request.user).count()
+            print(url_count)
+            if randam > url_count:
+                self.params["Random_Look"] = False
 
-        else:
-            #フォームが有効でない場合
-            print("error")
+            else:    
+                for i in range(randam):
+                    #乱数生成
+                    rand = random.randrange(0,randam)
+                    print("乱数:",rand)
+                    #辞書型で返ってくる
+                    url = Urls_save.objects.filter(user = self.request.user)[rand]
+                    #一番最後だけが保存されているからhtml上でforが使えない
+                    #elf.params["random_view"]は一気に書きこまないと値が変わる
+                    urls_gather.append(url) 
+                    
+                self.params["random_view"] = urls_gather
+                self.params["Random_Look"] = True
 
+        print(self.params)
         return render(request,"rand_view.html",context=self.params)
+        

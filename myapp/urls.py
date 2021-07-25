@@ -8,5 +8,6 @@ urlpatterns = [
     path("home",views.home,name="home"),
     path("create",views.URLsave.as_view(),name="create"),
     path("rand",views.Randomviews.as_view(),name="rand"),
+    path("random_views",views.Randomviews.as_view(),name="random_views"),
 ]
 

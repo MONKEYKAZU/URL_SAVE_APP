@@ -7,8 +7,11 @@ from django.forms import fields
 
 #フォームクラス作成
 class AccountForm(forms.ModelForm):
+    """
+    アカウント作成のフォーム作成
+    """
     #パスワード入力：非表示対応
-    #ここでplaceholder指定
+    #ここでplaceholder名を指定
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'パスワード'}))
 
     class Meta():
@@ -16,7 +19,7 @@ class AccountForm(forms.ModelForm):
         model = User
         #フィールド指定
         fields = ('username','email','password')
-        #プレースフォルダー名指定
+        #placeholder名を指定
         widgets = {
             'username'   : forms.TextInput(attrs={'placeholder': 'ユーザーID'}),
             'email'    :  forms.TextInput(attrs={'placeholder': 'e-mail'}),
@@ -24,17 +27,24 @@ class AccountForm(forms.ModelForm):
         
 
 class URL_SAVEForm(forms.ModelForm):
+    """
+    URLを保存する為のフォーム
+    """
+    title = forms.CharField(max_length=50)
     url = forms.URLField()
-    tag1 = forms.CharField(max_length=50)
-    tag2 = forms.CharField(max_length=50)
-    tag3 = forms.CharField(max_length=50)
+    tag1 = forms.CharField(max_length=50,required=False)
+    tag2 = forms.CharField(max_length=50,required=False)
+    tag3 = forms.CharField(max_length=50,required=False)
 
     class Meta():
         model = Urls_save
 
-        fields = ('url','tag1','tag2','tag3')
+        fields = ('title','url','tag1','tag2','tag3')
 
 class RANDOMForm(forms.Form):
+    """
+    乱数作成のフォーム
+    """
     ransu = forms.IntegerField()
 
     fieids = ('ransu')
